@@ -2,11 +2,11 @@
   "SourceBucketName": {
     "Type": "String",
     "Description": "The name of the source bucket to create",
-    "Default": "mnezir-source-bucket"
+    "Default": "aws-expo-image-resizer-source-bucket"
   },
   "TargetBucketName": {
     "Type": "String",
     "Description": "The name of the target bucket to create",
-    "Default": "mnezir-target-bucket"
+    "Default": "aws-expo-image-resizer-target-bucket"
   }
 }
