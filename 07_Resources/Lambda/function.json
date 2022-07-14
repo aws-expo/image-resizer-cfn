@@ -22,6 +22,9 @@
           },
           "TARGET_BUCKET": {
             "Ref": "TargetBucketName"
+          },
+          "SNS_TOPIC_ARN": {
+            "Ref": "SNSTopic"
           }
         }
       }

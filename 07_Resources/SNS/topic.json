@@ -1,0 +1,22 @@
+{
+  "SNSTopic": {
+    "Type": "AWS::SNS::Topic",
+    "Properties": {
+      "TopicName": {
+        "Ref": "SNSTopicName"
+      },
+      "DisplayName": {
+        "Ref": "SNSTopicName"
+      },
+      "FifoTopic": false,
+      "Subscription": [
+        {
+          "Endpoint": {
+            "Ref": "SNSEmailAddress"
+          },
+          "Protocol": "email"
+        }
+      ]
+    }
+  }
+}

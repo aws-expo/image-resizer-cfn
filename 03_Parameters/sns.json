@@ -1,0 +1,12 @@
+{
+  "SNSTopicName": {
+    "Type": "String",
+    "Description": "The name of the SNS topic to which to publish notifications.",
+    "Default": "image-resizer-topic"
+  },
+  "SNSEmailAddress": {
+    "Type": "String",
+    "Description": "The email address of the SNS subscription to send the email.",
+    "Default": "mucahitnezir@gmail.com"
+  }
+}
