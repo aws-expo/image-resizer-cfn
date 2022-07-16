@@ -1,0 +1,18 @@
+{
+  "GitHubTokenParam": {
+    "Type": "String",
+    "NoEcho": true
+  },
+  "RepositoryOwner": {
+    "Type": "String",
+    "Default": "aws-expo"
+  },
+  "RepositoryName": {
+    "Type": "String",
+    "Default": "image-resizer-lambda"
+  },
+  "RepositoryBranch": {
+    "Type": "String",
+    "Default": "main"
+  }
+}

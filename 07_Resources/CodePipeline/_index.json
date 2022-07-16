@@ -1,0 +1,66 @@
+{
+  "ImageResizerPipeline": {
+    "Type": "AWS::CodePipeline::Pipeline",
+    "Properties": {
+      "Name": "ImageResizerPipeline",
+      "RestartExecutionOnUpdate": true,
+      "RoleArn": { "Fn::GetAtt": [ "ImageResizerPipelineRole", "Arn" ] },
+      "ArtifactStore": {
+        "Type": "S3",
+        "Location": {
+          "Ref": "ArtifactBucket"
+        }
+      },
+      "Stages": [
+        {
+          "Name": "Source",
+          "Actions": [
+            {
+              "Name": "SourceAction",
+              "ActionTypeId": {
+                "Category": "Source",
+                "Owner": "ThirdParty",
+                "Provider": "GitHub",
+                "Version": "1"
+              },
+              "Configuration": {
+                "Owner": { "Ref": "RepositoryOwner" },
+                "Repo": { "Ref": "RepositoryName" },
+                "Branch": { "Ref": "RepositoryBranch" },
+                "PollForSourceChanges": false,
+                "OAuthToken": { "Ref": "GitHubTokenParam" }
+              },
+              "OutputArtifacts": [
+                {
+                  "Name": "source_artifact"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Build",
+          "Actions": [
+            {
+              "Name": "BuildAction",
+              "ActionTypeId": {
+                "Category": "Build",
+                "Owner": "AWS",
+                "Provider": "CodeBuild",
+                "Version": "1"
+              },
+              "Configuration": {
+                "ProjectName": { "Ref": "CodeBuildProject" }
+              },
+              "InputArtifacts": [
+                {
+                  "Name": "source_artifact"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

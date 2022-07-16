@@ -1,0 +1,67 @@
+{
+	"CodeBuildRole": {
+		"Type": "AWS::IAM::Role",
+		"Properties": {
+			"RoleName": "image_resized_code_build_role",
+			"AssumeRolePolicyDocument": {
+				"Version": "2012-10-17",
+				"Statement": [
+					{
+						"Effect": "Allow",
+						"Principal": {
+							"Service": "codebuild.amazonaws.com"
+						},
+						"Action": "sts:AssumeRole"
+					}
+				]
+			},
+			"Policies": [
+				{
+					"PolicyName": "CloudWatchAccess",
+					"PolicyDocument" : {
+						"Version": "2012-10-17",
+						"Statement": [
+							{
+								"Effect": "Allow",
+								"Action": [
+									"logs:CreateLogGroup",
+									"logs:CreateLogStream",
+									"logs:PutLogEvents"
+								],
+								"Resource": [
+									{ "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*" }
+								]
+							}
+						]
+					}
+				},
+				{
+					"PolicyName": "S3Access",
+					"PolicyDocument" : {
+						"Version": "2012-10-17",
+						"Statement": [
+							{
+								"Effect": "Allow",
+								"Action": "s3:GetObject",
+								"Resource": { "Fn::Sub": "arn:aws:s3:::${ArtifactBucket}/*"}
+							}
+						]
+					}
+				},
+				{
+					"PolicyName": "LambdaAccess",
+					"PolicyDocument" : {
+						"Version": "2012-10-17",
+						"Statement": [
+							{
+								"Effect": "Allow",
+								"Action": "lambda:UpdateFunctionCode",
+								"Resource": { "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:*"}
+							}
+						]
+					}
+				}
+			]
+		}
+	}
+}

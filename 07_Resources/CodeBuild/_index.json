@@ -1,0 +1,34 @@
+{
+  "CodeBuildProject": {
+    "Type": "AWS::CodeBuild::Project",
+    "Properties": {
+      "Name": "image_resizer_building",
+      "ServiceRole": { "Fn::GetAtt": ["CodeBuildRole", "Arn"] },
+      "TimeoutInMinutes": 60,
+      "Source": {
+        "Type": "CODEPIPELINE",
+        "BuildSpec": "buildspec.yml"
+      },
+      "Artifacts": {
+        "Type": "CODEPIPELINE"
+      },
+      "Environment": {
+        "Type": "LINUX_CONTAINER",
+        "ComputeType": "BUILD_GENERAL1_SMALL",
+        "Image": "aws/codebuild/standard:3.0",
+        "EnvironmentVariables": [
+          {
+            "Name": "FUNCTION_NAME",
+            "Type": "PLAINTEXT",
+            "Value": {
+              "Fn::GetAtt": [
+                "LambdaFunction",
+                "Arn"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

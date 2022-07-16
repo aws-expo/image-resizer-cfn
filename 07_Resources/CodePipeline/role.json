@@ -1,0 +1,51 @@
+{
+  "ImageResizerPipelineRole": {
+    "Type": "AWS::IAM::Role",
+    "Properties": {
+      "RoleName": "image_resizer_pipeline_role",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "codepipeline.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+          }
+        ]
+      },
+      "Policies": [
+        {
+          "PolicyName": "S3Access",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "s3:PutObject",
+                "Resource": { "Fn::Sub": "arn:aws:s3:::${ArtifactBucket}/*"}
+              }
+            ]
+          }
+        },
+        {
+          "PolicyName": "CodeBuildAccess",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "codebuild:BatchGetBuilds",
+                  "codebuild:StartBuild"
+                ],
+                "Resource": { "Fn::Sub": "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/*" }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

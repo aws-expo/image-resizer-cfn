@@ -1,0 +1,21 @@
+{
+  "ImageResizerGitHubWebhook": {
+    "Type": "AWS::CodePipeline::Webhook",
+    "Properties": {
+      "Authentication": "GITHUB_HMAC",
+      "AuthenticationConfiguration": {
+        "SecretToken": { "Ref": "GitHubTokenParam" }
+      },
+      "Filters": [
+        {
+          "JsonPath": "$.ref",
+          "MatchEquals": "refs/heads/{Branch}"
+        }
+      ],
+      "TargetPipeline": { "Ref": "ImageResizerPipeline" },
+      "TargetPipelineVersion": { "Fn::GetAtt": [ "ImageResizerPipeline", "Version" ]},
+      "TargetAction": "SourceAction",
+      "RegisterWithThirdParty": true
+    }
+  }
+}
